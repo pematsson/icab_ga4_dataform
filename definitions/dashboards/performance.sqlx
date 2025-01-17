@@ -53,8 +53,6 @@ from
 where 
   date >= event_date_checkpoint
   --date = '2024-09-09'
-  --and channel_group = 'Paid Traffic'
-  --session_id = 'zYGq+5AsAU/Aoy5/DnXD8dRVb91/B9HcujTtZmQutAk=.17262937381726293736'
 group by 
   date,
   session_id,

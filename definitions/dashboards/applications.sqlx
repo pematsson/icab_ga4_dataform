@@ -30,7 +30,7 @@ with pre_applications as (
       when regexp_contains(event_name, 'transfer|new|commitment|loan_promise|raise|mortgage_indicator|convert') or regexp_contains(page_location, '\\/lana\\/bolan') or regexp_contains(page_location, '\\/lana\\/hemnetkalkyl') or regexp_contains(page_location, '\\/min-ekonomi\\/(pagaende\\-arenden\\/lanelofte|pagaende\\-arenden\\/bolan|mina\\-lan\\/mina\\-bolan)') then "Bolån"
       when regexp_contains(event_name, 'blanco|blanco_loan_protection') or regexp_contains(page_location, '\\/(lana\\/privatlan|lan\\/privatlan)') or regexp_contains(page_location, '\\/lana\\/(blancolan|billan|batlan|energilan|laneskydd|samla\\-lan|hur\\-mycket\\-far\\-jag\\-lana|korkortslan|kokslan|lana\\-till\\-badrum|energilan\\/solcellslan|skoterlan|mc-lan|atv-lan|fritidshus)') or regexp_contains(page_location, '\\/min-ekonomi/(pagaende\\-arenden\\/privatlan|mina\\-lan\\/mina\\-privatlan)') then "Privatlån"
       when regexp_contains(event_name, 'debit_card_application|debit_card_child_application|credit_card_application|ica_student_application|increase_card_credit_application|increase_account_credit_application|bank_account_application|ikk_application') or regexp_contains(page_location, '/kort-och-betala/(jamfor-vara-kort|bankkort|kreditkort|bankkort-barn-och-ungdom|ica-kort-med-betalfunktion|bankkonto|ungdomskonto|ica-student)') or regexp_contains(page_location, '\\/lana\\/kontokredit') or page_location = 'https://www.icabanken.se/kort-och-betala/' then "Kort"
-      when regexp_contains(event_name, 'savings_account_application|savings_account_child_application|isk_account_application|isk_child_account_application|depot_account_application|depot_child_account_application') or regexp_contains(page_location, '/spara/investeringssparkonto|/spara/depakonto/|/spara/sparkonto/|/spara/spara-till-barn/') then "Spara"
+      when regexp_contains(event_name, 'savings_account_application|savings_account_child_application|isk_account_application|isk_child_account_application|depot_account_application|depot_child_account_application') or regexp_contains(page_location, '/spara/investeringssparkonto|/spara/depakonto/|/spara/sparkonto/|/spara/spara-till-barn/|\\/spara\\/isk\\-for\\-barn') then "Spara"
     else null end as product,
     case /* edit this to edit which event_name and page is associated with which type of product */
       when regexp_contains(event_name, 'transfer') or regexp_contains(page_location, '\\/lana\\/bolan\\/(flytta\\-bolan)') then 'Flytta bolån'
@@ -50,10 +50,10 @@ with pre_applications as (
       when regexp_contains(event_name, 'savings_account_application') or regexp_contains(page_location, '\\/spara\\/sparkonto') then 'Sparkonto'
       when regexp_contains(event_name, 'savings_account_child_application') or regexp_contains(page_location, '\\/spara\\/spara\\-till\\-barn') and not regexp_contains(page_location, '\\/vara\\-tips\\/') then 'Sparkonto barn'
       when regexp_contains(event_name, 'isk_account_application') or regexp_contains(page_location, '\\/spara\\/investeringssparkonto') then 'ISK-konto'
-      when regexp_contains(event_name, 'isk_child_account_application') or regexp_contains(page_location, '\\/spara\\/spara\\-till\\-barn') then 'ISK-konto barn'
+      when regexp_contains(event_name, 'isk_child_account_application') or regexp_contains(page_location, '\\/spara\\/spara\\-till\\-barn|\\/spara\\/isk\\-for\\-barn') then 'ISK-konto barn'
       when regexp_contains(event_name, 'depot_account_application') or regexp_contains(page_location, '\\/spara\\/depakonto') then 'Depåkonto'
       when regexp_contains(event_name, 'depot_child_account_application') or regexp_contains(page_location, '\\/spara\\/spara\\-till\\-barn') then 'Depåkonto barn'
-    else null end as type,
+    else null end as product_type,
     case
       when regexp_contains(event_name, 'application_start') then
       last_value(case 

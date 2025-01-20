@@ -53,7 +53,7 @@ with pre_applications as (
       when regexp_contains(event_name, 'isk_child_account_application') or regexp_contains(page_location, '\\/spara\\/spara\\-till\\-barn|\\/spara\\/isk\\-for\\-barn') then 'ISK-konto barn'
       when regexp_contains(event_name, 'depot_account_application') or regexp_contains(page_location, '\\/spara\\/depakonto') then 'Depåkonto'
       when regexp_contains(event_name, 'depot_child_account_application') or regexp_contains(page_location, '\\/spara\\/spara\\-till\\-barn') then 'Depåkonto barn'
-    else null end as product_type,
+    else null end as type,
     case
       when regexp_contains(event_name, 'application_start') then
       last_value(case 

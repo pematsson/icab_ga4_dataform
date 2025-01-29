@@ -2,7 +2,7 @@ config {
     type: "incremental",
     schema: constants.DASHBOARDS_DATASET,
     description: "OKR of conversion rate for blanco, used in looker studio and tableau. Denominator will count the number of unique sessions where a start event has happened. Achieved_value will count the number of unique sessions where a submit event has happened within the same session",
-    tags: ["all"],
+    tags: ["all","ga4"],
     bigquery: {
       partitionBy: "date"
   }

@@ -2,7 +2,7 @@ config {
     type: "incremental",
     schema: constants.DASHBOARDS_DATASET,
     description: "This table includes all private loan related tracking based on the table applications, to use in analysis or in dashboards. Fetches data from 2024-01-10.",
-    tags: ["all"],
+    tags: ["all","ga4"],
     bigquery: {
       partitionBy: "date"
   }

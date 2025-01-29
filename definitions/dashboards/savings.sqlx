@@ -2,7 +2,7 @@ config {
     type: "incremental",
     schema: constants.DASHBOARDS_DATASET,
     description: "This table includes all savings related tracking based on the table called applications, to use in analysis or in dashboards.",
-    tags: ["all"],
+    tags: ["all","ga4"],
     bigquery: {
       partitionBy: "date"
   }

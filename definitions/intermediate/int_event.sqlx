@@ -18,7 +18,7 @@ config {
     type: "incremental",
     schema: constants.INTERMEDIATE_DATASET,
     description: "Intermediate model that updates staging events data.",
-    tags: ["all"],
+    tags: ["all","ga4"],
     bigquery: {
         partitionBy: "event_date",
         clusterBy: ["user_key", "ga_session_key"]

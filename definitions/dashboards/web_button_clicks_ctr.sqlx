@@ -1,0 +1,56 @@
+config {
+    type: "incremental",
+    schema: constants.DASHBOARDS_DATASET,
+    description: "",
+    tags: ["all"],
+    bigquery: {
+      partitionBy: "date"
+  }
+}
+
+pre_operations {
+  declare event_date_checkpoint default (
+    ${when(incremental(),
+      `select max(date) -3 from ${self()}`,
+      `select cast('${constants.START_DATE}' as date format 'yyyymmdd')`)
+    }
+  )
+  ---
+  ${when(incremental(),
+    `delete from ${self()} where date >= event_date_checkpoint`)
+  }
+}
+
+with base_button_click as (
+  select
+    date,
+    page_location,
+    session_id,
+    event_params.button_text as button_text,
+    REGEXP_EXTRACT(event_params.destination_url, r'[^/]+//[^/]+(/[^?]*)') AS destination_url
+
+  from
+    ${ref('applications')}
+  where
+    date >= event_date_checkpoint
+    --date = '2025-02-10' /* Simply for testing purposes */
+    and event_name ='button_click'
+)
+
+  select
+   date,
+   page_location,
+   button_text,
+   destination_url,
+   COUNT(DISTINCT session_id) AS clicks
+  from
+   base_button_click 
+  where 
+   button_text is not null
+  group by
+  date,
+  page_location,
+  button_text,
+  destination_url
+ 
+    

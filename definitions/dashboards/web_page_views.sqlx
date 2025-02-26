@@ -1,0 +1,46 @@
+config {
+    type: "incremental",
+    schema: constants.DASHBOARDS_DATASET,
+    description: "",
+    tags: ["all"],
+    bigquery: {
+      partitionBy: "date"
+  }
+}
+
+pre_operations {
+  declare event_date_checkpoint default (
+    ${when(incremental(),
+      `select max(date) -3 from ${self()}`,
+      `select cast('${constants.START_DATE}' as date format 'yyyymmdd')`)
+    }
+  )
+  ---
+  ${when(incremental(),
+    `delete from ${self()} where date >= event_date_checkpoint`)
+  }
+}
+
+with base_page_view as (
+  select
+    date,
+     REGEXP_EXTRACT(page_location, r'[^/]+//[^/]+(/[^?]*)') as page_location,
+    session_id
+  from
+    ${ref('applications')}
+  where
+    date >= event_date_checkpoint
+   -- date = '2025-02-10' /* Simply for testing purposes */
+    and event_name ='page_view'
+)
+
+  select
+   date,
+   page_location,
+   COUNT( DISTINCT session_id) AS page_views
+  from
+   base_page_view 
+  group by
+  date,
+  page_location
+    

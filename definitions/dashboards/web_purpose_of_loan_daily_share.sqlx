@@ -46,9 +46,7 @@ and
     count(distinct session_id) as unique_submits,
    round(count(*)/sum(count(*) )over (partition by date),2) as loan_purpose_share_week
   from
-   daily_data 
-  where 
-  date >= '2024-01-10'
+   daily_data
   group by
   loan_purpose,
   date

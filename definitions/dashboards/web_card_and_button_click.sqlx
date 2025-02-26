@@ -25,7 +25,7 @@ with base_card_button_click as (
   select
     date,
     event_name,
-    page_location,
+    REGEXP_EXTRACT(page_location, r'[^/]+//[^/]+(/[^?]*)') as page_location,
     session_id,
     event_params.button_text as button_clicked,
     event_params.card_text as card_clicked,

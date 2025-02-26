@@ -24,7 +24,7 @@ pre_operations {
 with base_button_click as (
   select
     date,
-    page_location,
+  REGEXP_EXTRACT(page_location, r'[^/]+//[^/]+(/[^?]*)') as page_location,
     session_id,
     event_params.button_text as button_text,
     REGEXP_EXTRACT(event_params.destination_url, r'[^/]+//[^/]+(/[^?]*)') AS destination_url

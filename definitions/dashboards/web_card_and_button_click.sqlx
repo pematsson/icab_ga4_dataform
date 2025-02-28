@@ -25,11 +25,11 @@ with base_card_button_click as (
   select
     date,
     event_name,
-    REGEXP_EXTRACT(page_location, r'[^/]+//[^/]+(/[^?]*)') as page_location,
+    page_location,
     session_id,
     event_params.button_text as buttons_clicked,
     event_params.card_text as cards_clicked,
-    REGEXP_EXTRACT(event_params.destination_url, r'[^/]+//[^/]+(/[^?]*)') AS destination_url
+    event_params.destination_url AS destination_url
 
   from
     ${ref('applications')}
@@ -37,6 +37,7 @@ with base_card_button_click as (
     date >= event_date_checkpoint
     --date = '2025-02-10' /* Simply for testing purposes */
     and event_name in('button_click','card_click')
+    and page_location = 'https://www.icabanken.se/'
 )
 
   select

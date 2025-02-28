@@ -117,7 +117,7 @@ with pre_applications as (
     or event_name = 'loan_indicator'
     or event_name = 'mortgage_indicator_nav'
     or event_name = 'mortgage_indicator'
-    or regexp_contains(event_name, 'button_click|link_click|outbound_link_click|card_click|menu_click|drawer_open')
+    or regexp_contains(event_name, 'button_click|scroll|link_click|outbound_link_click|card_click|menu_click|drawer_open')
     )
 ),
 

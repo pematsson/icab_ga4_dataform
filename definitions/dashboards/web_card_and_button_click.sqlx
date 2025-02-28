@@ -27,8 +27,8 @@ with base_card_button_click as (
     event_name,
     REGEXP_EXTRACT(page_location, r'[^/]+//[^/]+(/[^?]*)') as page_location,
     session_id,
-    event_params.button_text as button_clicked,
-    event_params.card_text as card_clicked,
+    event_params.button_text as buttons_clicked,
+    event_params.card_text as cards_clicked,
     REGEXP_EXTRACT(event_params.destination_url, r'[^/]+//[^/]+(/[^?]*)') AS destination_url
 
   from
@@ -41,9 +41,10 @@ with base_card_button_click as (
 
   select
    date,
+   event_name,
    page_location,
-   button_clicked,
-   card_clicked,
+   buttons_clicked,
+   cards_clicked,
    destination_url,
    COUNT(DISTINCT session_id) AS unique_clicks
   from
@@ -52,8 +53,8 @@ with base_card_button_click as (
   date,
   event_name,
   page_location,
-  button_clicked,
-  card_clicked,
+  buttons_clicked,
+  cards_clicked,
   destination_url
 
     

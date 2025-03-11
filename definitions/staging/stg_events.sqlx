@@ -151,7 +151,8 @@ with
       ${helpers.unnestColumn('event_params', 'repayment_time_yrs', 'int_value')} as repayment_time_yrs,
       ${helpers.unnestColumn('event_params', 'value', 'int_value')} as value,
       ${helpers.unnestColumn('event_params', 'cost_of_living', 'int_value')} as cost_of_living,
-      ${helpers.unnestColumn('event_params', 'housing_cost', 'int_value')} as housing_cost
+      ${helpers.unnestColumn('event_params', 'housing_cost', 'int_value')} as housing_cost,
+      ${helpers.unnestColumn('event_params', 'percent_scrolled','int_value')} as percent_scrolled
       ) as event_params,
       STRUCT(
       ${helpers.unnestColumn('user_properties', 'has_account')} as has_account,

@@ -118,6 +118,12 @@ with pre_applications as (
     or event_name = 'mortgage_indicator_nav'
     or event_name = 'mortgage_indicator'
     or regexp_contains(event_name, 'button_click|scroll|link_click|outbound_link_click|card_click|menu_click|drawer_open')
+    or event_name = 'SAS_promotion_click'
+    or event_name = 'accordion'
+    or event_name = 'internal_transfer_error'
+    or event_name = 'internal_transfer_success'
+    or event_name = 'login_error'
+    or event_name = 'blanco_application_offer'
     )
 ),
 
